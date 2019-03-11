@@ -2,7 +2,8 @@
 """
 Created on Sun Sep 23 14:12:38 2018
 Computes collisions by iterating the collision map. Implements the stadia's
-Collision map.
+Collision map to find the successive collision of a given collision. Uses 
+CoordinateConversion.py.
 
 @author: Randy
 """
@@ -27,23 +28,18 @@ def collisionLoop(x, y, beta, iterations, lam):
        
     points = [(x,y,beta)]
     
-    # Iteratively call the collsion map. Save the collsion points returned.
+    # Iteratively call the collision map. Save the collision points returned.
     while iterations > 0:
         (x,y,beta) = collisionMap(x,y,beta)
         points.append((x,y,beta))
         iterations = iterations - 1
-        # Check for invalid output of collisionMap
-#        if (x == 0 and y == 0):
-#            print "An invalid output of collisionMap was detected with"
-#            print iterations, " iterations left to go. Aborting collisionLoop."
-#            iterations = 0
         
     return points
 
 def collisionMap(x,y,beta):
     """ Calculates the next collision given the previous collision specified
         by x,y,beta. The next collision is returned as x1,y1,b1. This function
-        uses the 4 boolean flags.
+        uses the 4 boolean flags described below.
     """
     # ::The COLLISION variable::
     # This variable indicates where the previous collision was, within the 
@@ -56,7 +52,7 @@ def collisionMap(x,y,beta):
     # 3 indicates that the collision was with the right cap.
     # 4 indicates that the collision was with the lower side.
     # Set the variable to zero to indicate that the location of the previous
-    # collidion is unknown.
+    # collision is unknown.
     collision = 0
     
     beta = mod2pi(beta)
@@ -70,7 +66,7 @@ def collisionMap(x,y,beta):
         return verticalPath(x,y,beta)
     
     # See which part of the billiard table the initial condition (a collision) 
-    # resides. Then set collision to the approrpiate value.    
+    # resides. Then set collision to the appropriate value.    
     # See which part of the table the initial condition resides.
     if x < -halfLam:
         # left cap.
@@ -115,9 +111,9 @@ def collisionMap(x,y,beta):
 def upperSideCollisionTest(x,y,beta):
     """ This function checks for a collision with the upper side. If one is
         detected, then calculate the coordinates where it occurs and the 
-        billiard's new direction. The input is the coodinate of the billiard's
+        billiard's new direction. The input is the coordinate of the billiard's
         previous collision along with the slope of the line representing the
-        path. The coodinates of the new collision are returned along with the
+        path. The coordinates of the new collision are returned along with the
         angle specifying the direction. If no collision was detected then None
         is returned.
     """
@@ -125,7 +121,7 @@ def upperSideCollisionTest(x,y,beta):
     m = math.tan(beta)
     # See where the billiard's path intersects the line y=1.
     # If this occurs in the proper range then a collision with
-    # the upper side has occured.
+    # the upper side has occurred.
     intersection = (1-float(y))/m + x
     if -halfLam <= intersection and intersection <= halfLam:
         x1 = intersection
@@ -142,19 +138,19 @@ def upperSideCollisionTest(x,y,beta):
 ##############################################END upperSideCollisionTest()####
     
 def lowerSideCollisionTest(x,y,beta):
-    """ Tests for collision with LS. IF one occurs return the new collsions 
+    """ Tests for collision with LS. IF one occurs return the new collisions 
         coordinates with the billiards new direction. Otherwise return None.
     """
     # Set the slope of the line representing the path of the billiard.
     m = math.tan(beta)
     # See where the billiard's path intersects the line y=1.
     # If this occurs in the proper range then a collision with
-    # the upper side has occured.
+    # the upper side has occurred.
     intersection = (-1-float(y))/m + x
     if -halfLam <= intersection and intersection <= halfLam:
         x1 = intersection
         y1 = -1
-        # find the components of the post-collsisional velocity vector.
+        # find the components of the post-collisional velocity vector.
         vpx = math.cos(beta)
         vpy = -math.sin(beta)
         # use the post collisional velocity vector to find the new direction 
@@ -186,14 +182,14 @@ def leftCapCollisionTest(x,y,beta,collision):
     # 
     square = math.sqrt(discr)
     a2 = 2*a
-    # Find the two potential x-values of a collsion with the upper left cap.
+    # Find the two potential x-values of a collision with the upper left cap.
     d = (-b + square)/a2
     e = (-b - square)/a2
     # See if the previous collision was in the left cap.
     if collision == 1 :
         # The previous collision was in the left cap. See which 
         # potential x-value was the x-value of the previous collision.
-        # The other potential x-value must belong to the new collison.
+        # The other potential x-value must belong to the new collision.
         # Set collision to 1  to indicate that a collision with left cap
         # was detected so that the new y-value and direction can be computed
         # below.
@@ -227,19 +223,19 @@ def leftCapCollisionTest(x,y,beta,collision):
     if collision == 1:
         # Set the new y-value
         y1 = m*(x1 - x) + y
-        # Calculate the components of the precollisional velocity vector
+        # Calculate the components of the pre-collisional velocity vector
         vmx = math.cos(beta)
         vmy = math.sin(beta)
         # Calculate the components of the inward normal vector
         nx = -(x1 + halfLam)
         ny = -y1
-        # calculate the dot product of the precollisional velocity vector and 
+        # calculate the dot product of the pre-collisional velocity vector and 
         # the inward normal
         dot = vmx*nx + vmy*ny
-        # Calculate the components of the postcollisional velocity vector
+        # Calculate the components of the post-collisional velocity vector
         vpx = vmx - 2*dot*nx
         vpy = vmy - 2*dot*ny
-        # Calculate the direction angle of the postcollisional velocity vector
+        # Calculate the direction angle of the post-collisional velocity vector
         beta1 = math.atan2(vpy, vpx)
         return (x1, y1, mod2pi(beta1))
     return None
@@ -247,7 +243,7 @@ def leftCapCollisionTest(x,y,beta,collision):
 #####################################End Left Cap Collision Tester
 
 def rightCapCollisionTest(x,y,beta, collision):
-    """ Tests for a collsion with the upper right cap. If one is detected,
+    """ Tests for a collision with the upper right cap. If one is detected,
         then the new x,y, and beta-values are computed and returned. If not,
         then None is returned. 
     """
@@ -266,14 +262,14 @@ def rightCapCollisionTest(x,y,beta, collision):
         return None
     square = math.sqrt(discr)
     a2 = 2*a
-    # Find the two potential x-values of a collsion with the upper right cap.
+    # Find the two potential x-values of a collision with the upper right cap.
     d = (-b + square)/a2
     e = (-b - square)/a2
     # Check if the previous collision was with the upper right cap.
     if collision == 3:
         # The previous collision was in the upper right cap. See which 
         # potential x-value was the x-value of the previous collision.
-        # The other potential x-value must belong to the new collison.
+        # The other potential x-value must belong to the new collision.
         # Set collision to 3 to indicate that a collision with upper right cap
         # was detected so that the new y-value and direction can be computed
         # below.
@@ -306,19 +302,19 @@ def rightCapCollisionTest(x,y,beta, collision):
     if collision == 3:
 # Set the new y-value
         y1 = m*(x1 - x) + y
-        # Calculate the components of the precollisional velocity vector
+        # Calculate the components of the pre-collisional velocity vector
         vmx = math.cos(beta)
         vmy = math.sin(beta)
         # Calculate the components of the inward normal vector
         nx = -(x1 - halfLam)
         ny = -y1
-        # calculate the dot product of the precollisional velocity vector and 
+        # calculate the dot product of the pre-collisional velocity vector and 
         # the inward normal
         dot = vmx*nx + vmy*ny
-        # Calculate the components of the postcollisional velocity vector
+        # Calculate the components of the post-collisional velocity vector
         vpx = vmx - 2*dot*nx
         vpy = vmy - 2*dot*ny
-        # Calculate the direction angle of the postcollisional velocity vector
+        # Calculate the direction angle of the post-collisional velocity vector
         beta1 = math.atan2(vpy, vpx)
         return (x1, y1, mod2pi(beta1))
     return None
@@ -336,7 +332,7 @@ def horizontalPath(x,y,beta):
     y1 = y
     x1 = -x
     
-    # Check for the special case where the billiard is travelling along the
+    # Check for the special case where the billiard is traveling along the
     # x-axis. If it is it shall bounce back along the same path.
     if y == 0:
         if beta == 0:
@@ -345,7 +341,7 @@ def horizontalPath(x,y,beta):
             beta1 = 0
         return (x1, y1, mod2pi(beta1))
     
-    # Check if the billiard is travelling from left to right.
+    # Check if the billiard is traveling from left to right.
     # Notice that the billiard can not collide with a flat wall because
     # it is traveling horizontally, which is parallel to the flat walls.
     if beta == 0:
@@ -353,31 +349,31 @@ def horizontalPath(x,y,beta):
         # Since beta is zero, the direction between the path's line and the
         # inward normal is just the inward normal's angle.
         alpha = math.acos(x1 - halfLam)
-        # Check if the billiard is travelling towards the upper right cap.
+        # Check if the billiard is traveling towards the upper right cap.
         if y > 0:
             # To get the new direction of the billiard we use the
             # direction of the inward normal and rotate it ccw by alpha.
             beta1 = math.pi + math.asin(y1) + alpha
-        # Check if the billiard is travelling towards the lower right cap.
+        # Check if the billiard is traveling towards the lower right cap.
         elif y < 0:
             # To get the new direction of the billiard we use the direction
             # of the inward normal and rotate it clockwise by alpha.
             beta1 = math.pi + math.asin(y1) - alpha
-        # Notice that we dont have to consider the case where y=0 because it 
+        # Notice that we don't have to consider the case where y=0 because it 
         # is handled in the first if statement of this function.
         # Return the new point in the collision space.
         return (x1, y1, mod2pi(beta1))
     
-    # Check if the billiard is travelling from right to left.
+    # Check if the billiard is traveling from right to left.
     if beta == math.pi:
         # Find the angle between the billiard's path and the inward normal.
         alpha = math.acos(-(x1 + halfLam))
-        # Check if the billiard is travelling towards the upper left cap.
+        # Check if the billiard is traveling towards the upper left cap.
         if y > 0:
             # To get the new direction of the billiard take the inward normal's
             # direction and rotate if clockwise by alpha.
             beta1 = 2*math.pi - math.asin(y1) - alpha
-        # Check if the billiard is travelling towards the lower left cap.
+        # Check if the billiard is traveling towards the lower left cap.
         if y < 0:
             beta1 = -math.asin(y1) + alpha
         # Return the new point in the collision space.
@@ -386,7 +382,7 @@ def horizontalPath(x,y,beta):
 
     
 def verticalPath(x,y,beta):
-    """ This function calculates the next collision for a particle travelling
+    """ This function calculates the next collision for a particle traveling
         in a purely vertical direction.
     """
     # The x-value will remain unchanged.
@@ -409,9 +405,9 @@ def verticalPath(x,y,beta):
             beta1 = mod2pi(2*thetahat - 5*math.pi/2)
         return (x1, y1, mod2pi(beta1))
     
-    # See if the billiard is travelling between flat walls
+    # See if the billiard is traveling between flat walls
     if x <= halfLam:
-        # See if the billiard is travelling towards the upper side. If so it
+        # See if the billiard is traveling towards the upper side. If so it
         # will just be reflected back to where it came from.
         if abs(beta - math.pi/2) < delta:
             beta1 = 3*math.pi/2

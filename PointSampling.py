@@ -10,7 +10,7 @@ import numpy as np
 
 def evenSpacingSample(low, high, num):
     """ Samples evenly spaced points in the interval [low, high].
-        Returns num # of evenly spaced points in [low, high].
+        Returns num number of evenly spaced points in [low, high].
         USES NUMPY.
     """
     return np.arange(low, high, (high-low)/float(num)).tolist()
@@ -22,7 +22,7 @@ def randomSample(low, high, num):
     """
     # generate num random numbers between 0 and 1.
     sample = np.random.rand(num)
-    # finde the range of numbers
+    # find the range of numbers
     rangee = high - low
     # scale every number in the array by rangee
     sample = rangee*sample

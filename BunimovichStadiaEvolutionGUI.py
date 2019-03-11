@@ -2,7 +2,8 @@
 """
 Created on Thu Jan  3 13:56:14 2019
 Stadia evoulution Viewer (GUI). Provides a GUI for the user to input
-what they want to view. (Stadia View, Cylinder View, or Spherical View)
+the parameters of the system. Enables the Stadia View, Cylinder View, 
+and Spherical View. Uses Plotter.py
 @author: Randy
 """
 
@@ -18,7 +19,7 @@ pi = math.pi
 # Create a GUI window
 master = tk.Tk()
 
-## Create global variables (those in drop down menues) ##
+## Create global variables (those in drop down menus) ##
 constvar   = StringVar(master) # Which variable (theta/phi) is constant?
 eRange     = StringVar(master) # Specifies a window for the other var to vary
 samples    = StringVar(master) # Specifies the number of samples
@@ -26,16 +27,16 @@ sampleType = StringVar(master) # Specifies the sampling technique to be used
 iterations = StringVar(master) # Specifies the number of iterations
 start      = StringVar(master) # Specifies the iteration to start displaying
 
-## Global entry varialbes
+## Global entry variables
 const = StringVar(master)
 var   = StringVar(master)
 
-## Global checkbox variables
+## Global check box variables
 c_check = StringVar()
 s_check = StringVar()
 b_check = StringVar()
 
-# Set default values for the global variables (displayed on dropdowns)
+# Set default values for the global variables (displayed on drop-downs)
 constvar.set("constant variable")
 eRange.set("sampled variable range")
 samples.set("samples")
@@ -254,7 +255,7 @@ if __name__ == "__main__":
                        "11", "12", "13", "14", "15"]
     start_list = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", \
                   "11", "12", "13", "14", "15"]
-    ## Create drop down menues ##
+    ## Create drop down menus ##
     const_option   = OptionMenu(master, constvar, *constVar_list)
     eRang_option   = OptionMenu(master, eRange, *eRang_list)
     samples_option = OptionMenu(master, samples, *samples_list)
@@ -262,7 +263,7 @@ if __name__ == "__main__":
     iterate_option = OptionMenu(master, iterations, *iterations_list)
     start_option   = OptionMenu(master, start, *start_list)
     
-    # Place the drop down menues
+    # Place the drop down menus
     const_option.grid(row = 0, column = 2)
     eRang_option.grid(row = 3, column = 2)
     samples_option.grid(row = 4, column = 2)
@@ -284,7 +285,7 @@ if __name__ == "__main__":
     # remain disabled until all fields are entered.
     generate_button.config(state = 'disabled')
     
-    # Attach a trace to all varialbes. Use it to ensure that generate_button
+    # Attach a trace to all variables. Use it to ensure that generate_button
     # can only be pressed when all fields are entered.
     constvar.trace("w", protectGenerate)
     eRange.trace("w", protectGenerate)
@@ -303,7 +304,7 @@ if __name__ == "__main__":
     b_checkbutton = tk.Checkbutton(master, variable=b_check, \
                             text ='stadia view', command=protectGenerate)
     
-    # Place checkbuttons
+    # Place check-buttons
     c_checkbutton.grid(row = 9, column = 0)
     s_checkbutton.grid(row = 9, column = 1)
     b_checkbutton.grid(row = 9, column = 2)

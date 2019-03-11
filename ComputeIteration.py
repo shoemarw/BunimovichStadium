@@ -2,10 +2,10 @@
 """
 Created on Sun Oct 28 14:08:19 2018
 
-Functions for taking a range of theta-phi values and producting images of these
-sets for display on the sphere. We use image in the sense of the image of a set
-under a function. Uses pointSampling, coordinateConversion, and 
-BilliardCollisions_VectorEq.
+Functions for taking a range of theta-phi values and producing images of these
+sets for display. We use image in the sense of the image of a set
+under a function. Uses PointSampling.py, CoordinateConversion.py, and 
+CollisionMap.py.
 
 @author: Randy
 """
@@ -22,7 +22,7 @@ def image_const_theta(philow, phihigh, samples, theta, iterations, lam, \
         num        := the number of desired phi values.
         theta      := the the theta value for each point.
         iterations := the number of iterations desired.
-        lam        := the parameter that characherizes a Bunimovich Stadium.
+        lam        := the parameter that characterizes a Bunimovich Stadium.
         sampleType := specifies the sampling technique to be used.
                       'even' for evenly spaced, 'random' for uniform random.
         Uses evenly spaced samples for now... Theta is constant, only
@@ -34,7 +34,7 @@ def image_const_theta(philow, phihigh, samples, theta, iterations, lam, \
     elif sampleType == 'random':
         phiArray = randomSample(philow, phihigh, samples)
     images = []
-    # store the cartesian coodinates of the trajectories
+    # store the Cartesian coordinates of the trajectories
     cartesianImages = []
     # build an list of lists. The inner list is the collision points on 
     # iteration i. the outer list is a list of iterations.
@@ -42,7 +42,7 @@ def image_const_theta(philow, phihigh, samples, theta, iterations, lam, \
         images.append([])
     for i in range(samples):
         phi = phiArray[i]
-        # Get the cartesian values associated with the theta-phi pair
+        # Get the Cartesian values associated with the theta-phi pair
         (x, y, beta) = thetaphiTOxybeta(theta, phi, lam)
         # Iterate collisions using (x, y, beta) as seeds.
         # This returns the trajectory of (x,y,beta)
@@ -67,7 +67,7 @@ def image_const_phi(thetalow, thetahigh, samples, phi, iterations, lam, \
         sample     := the number of desired theta values.
         phi        := the the phi value for each point.
         iterations := the number of iterations desired.
-        lam        := the parameter that characherizes a Bunimovich Stadium.
+        lam        := the parameter that characterizes a Bunimovich Stadium.
         sampleType := specifies the sampling technique to be used.
                       'e' for evenly spaced, 'u' for uniform random.
         The range for phi is [low, high].
@@ -78,7 +78,7 @@ def image_const_phi(thetalow, thetahigh, samples, phi, iterations, lam, \
     elif sampleType == 'random':
         thetaarray = randomSample(thetalow, thetahigh, samples)
     images = []
-    # This will store the cartesian coodinates of the trajectories
+    # This will store the Cartesian coordinates of the trajectories
     cartesianImages = []
     # build an list of lists. The inner list is the collision points on 
     # iteration i. the outer list is a list of iterations.
@@ -86,7 +86,7 @@ def image_const_phi(thetalow, thetahigh, samples, phi, iterations, lam, \
         images.append([])
     for i in range(samples):
         theta = thetaarray[i]
-        # get the cartesian values associated with this theta-phi pair
+        # get the Cartesian values associated with this theta-phi pair
         (x, y, beta) = thetaphiTOxybeta(theta, phi, lam)
         # Iterate collisions using (x, y, beta) as seeds.
         # This returns the trajectory of (x,y,beta)
