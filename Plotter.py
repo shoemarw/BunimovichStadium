@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sat Jan  5 12:42:50 2019
-This code is used by the Bunimovich Stadia Evolution GUI to do plotting.
-It produces plots in the cylindrical, spherical, and stadia views. 
+This code is used by the Bunimovich Stadia Evolution Viewer GUI to do plotting.
+It produces plots in the cylindrical, spherical, and stadia views. Uses 
+ComputeIteration.py
 @author: Randy
 """
 
@@ -181,6 +182,8 @@ def plotter(const, samples, sampleParamLow, sampleParamHi, param, \
                      cartesianImage[sample][iteration+1][0]]
                 y = [cartesianImage[sample][iteration][1], \
                      cartesianImage[sample][iteration+1][1]]
+                print 'x = ' + str(x)
+                print 'y = ' + str(y)
                 plt.arrow(x[0], y[0], (x[1]-x[0]), (y[1]-y[0]), color = 'r', \
                     length_includes_head = True, shape='full', head_width=.05)
             ppB.savefig(fig)
@@ -216,7 +219,7 @@ def plotter(const, samples, sampleParamLow, sampleParamHi, param, \
                 theta_i   = points[i][0]
                 phi_im1   = points[i-1][1] + pi/2
                 phi_i     = points[i][1] + pi/2
-                # Calculate the 3d cartesian values corresponding to the
+                # Calculate the 3d Cartesian values corresponding to the
                 # theta phi values.
                 xx_im1    = math.sin(phi_im1)*math.cos(theta_im1)
                 xx_i      = math.sin(phi_i)*math.cos(theta_i)

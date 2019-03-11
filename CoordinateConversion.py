@@ -4,7 +4,7 @@ Created on Sat Oct 27 16:42:30 2018
 Provides functions for conversion of points in the collision space of the 
 Bunimovich stadium.
 This provides a library of functions that transform points in the collision 
-space to and from cartesian and spherical.
+space to and from Cartesian and spherical.
 
 @author: Randy
 """
@@ -12,15 +12,15 @@ import math
 
 def thetaphiTOxybeta(theta, phi, lam):
     """ theta := polar angle of the location where a collision occurs.
-        phi   := angle of the postcollisional velocity vector WRT the inward
+        phi   := angle of the post-collisional velocity vector WRT the inward
                  normal vector.
         lam   := the ratio of twice the length of the billiard table to its
                  radius.
         This function takes (theta, phi) and produces the x,y pair representing
-        that location in cartesian coordinates. It also finds beta, the polar
+        that location in Cartesian coordinates. It also finds beta, the polar
         angle of the direction of the velocity vector.
     """
-    # Calculate the reference angle associated with this insance of a
+    # Calculate the reference angle associated with this instance of a
     # Bunimovich Stadium. This angle will be used to determine on which wall
     # the point resides.
     ref = math.atan(float(2)/lam)
@@ -72,9 +72,9 @@ def thetaphiTOxybeta(theta, phi, lam):
     
 #  (x,y, beta) |-----> (theta, phi)
 def xybetaTOthetaphi(x, y, beta, lam):
-    """ (x,y) := The cartesian coodinates of the collision.
+    """ (x,y) := The Cartesian coordinates of the collision.
         beta  := The polar angle of the velocity vector.
-        This function takes a (x,y,beta) tripple and produces a
+        This function takes a (x,y,beta) triple and produces a
         theta phi pair.
     """
     # Calculate theta
@@ -116,7 +116,7 @@ def xybetaTOthetaphi(x, y, beta, lam):
     
 
 def mod2pi(angle):
-    """ Takes an angle and returns the coterminal angle in [0,2pi).
+    """ Takes an angle and returns the co-terminal angle in [0,2pi).
     """
     while angle < 0:
         angle = angle + 2*math.pi
