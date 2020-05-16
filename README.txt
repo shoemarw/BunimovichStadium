@@ -1,3 +1,5 @@
+GNU General Public License v3.0
+
 To obtain the Bunimovich Stadia Evolution viewer (BSE viewer) software there are two choices:
 
 If you have Python on your machine simply download all of the .py files in this repository into the same 
